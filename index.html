@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة البطولات الرياضية</title>
+    <!-- خط تجوال من جوجل لدعم العربية -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">كأس الأبطال</div>
+        <nav>
+            <ul id="nav-links">
+                <li><a onclick="showSection('home')">الرئيسية</a></li>
+                <li><a onclick="showSection('tournaments')">البطولات</a></li>
+                <li><a onclick="showSection('matches')">المباريات والنتائج</a></li>
+                <li><a onclick="showSection('media')">المركز الإعلامي</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <button class="btn btn-outline" onclick="window.location.href='app.html'">تسجيل الدخول</button>
+        </div>
+    </header>
+
+    <!-- قسم الرئيسية -->
+    <main id="home" class="section active">
+        <h1>مرحباً بك في المنصة الرياضية الأولى</h1>
+        <p>تابع أحدث البطولات، الإحصائيات، والأخبار في مكان واحد.</p>
+        <!-- سيتم جلب البطولات الحالية هنا عبر JS -->
+        <div class="grid-container" id="home-tournaments-list"></div>
+    </main>
+
+    <!-- قسم البطولات -->
+    <main id="tournaments" class="section">
+        <h2>جميع البطولات</h2>
+        <div class="grid-container" id="all-tournaments-list"></div>
+    </main>
+
+    <!-- قسم المباريات -->
+    <main id="matches" class="section">
+        <h2>أحدث النتائج وجدول المباريات</h2>
+        <div id="matches-list"></div>
+    </main>
+
+    <!-- قسم المركز الإعلامي والرعاة -->
+    <main id="media" class="section">
+        <h2>المركز الإعلامي</h2>
+        <div class="grid-container" id="media-gallery"></div>
+        <hr>
+        <h2>شركاء النجاح</h2>
+        <div class="grid-container" id="sponsors-list"></div>
+    </main>
+
+    <script type="module" src="app.js"></script>
+    <script>
+        // دالة بسيطة للتنقل بين الأقسام
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+        }
+   </script>
+</body>
+</html>

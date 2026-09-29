@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة المستخدم - منصة البطولات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* تنسيقات إضافية خاصة بالنماذج (Forms) */
+        .form-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit;}
+        .error-msg { color: var(--danger-color); font-size: 0.9rem; margin-top: 10px; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" style="cursor:pointer;" onclick="window.location.href='index.html'">كأس الأبطال</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">الرئيسية</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- قسم تسجيل الدخول (يظهر إذا لم يكن المستخدم مسجلاً) -->
+    <main id="login-section" class="section active">
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 20px;">تسجيل الدخول</h2>
+            <form onsubmit="loginUser(event)">
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="email" required placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="password" required placeholder="********">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">دخول</button>
+                <div id="login-error" class="error-msg"></div>
+            </form>
+        </div>
+    </main>
+
+    <!-- قسم لوحة تحكم المستخدم (يظهر بعد تسجيل الدخول) -->
+    <main id="dashboard-section" class="section">
+        <div class="dashboard-header">
+            <h2>أهلاً بك، <span id="user-email"></span></h2>
+            <button class="btn btn-outline" style="color: var(--danger-color); border-color: var(--danger-color);" onclick="logoutUser()">تسجيل خروج</button>
+        </div>
+
+        <div class="grid-container">
+            <!-- بطاقة الفرق الخاصة بي -->
+            <div class="card">
+                <h3>فريقي</h3>
+                <p>إدارة بيانات فريقك ولاعبيك.</p>
+                <br>
+                <button class="btn btn-outline" style="color:var(--secondary-color); border-color:var(--secondary-color);">إدارة الفريق</button>
+            </div>
+
+            <!-- بطاقة التسجيل في بطولة -->
+            <div class="card">
+                <h3>البطولات</h3>
+                <p>سجل فريقك في البطولات المتاحة وتابع حالة طلبك.</p>
+                <br>
+                <button class="btn btn-primary">طلب تسجيل جديد</button>
+            </div>
+            
+            <!-- بطاقة حالة الطلبات -->
+            <div class="card">
+                <h3>حالة الطلبات</h3>
+                <p>حالة التسجيل: <span style="color: var(--accent-color); font-weight:bold;">بانتظار المراجعة</span></p>
+                <p>حالةالدفع: <span style="color: var(--danger-color); font-weight:bold;">غير مكتمل</span></p>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

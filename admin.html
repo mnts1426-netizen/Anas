@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة - منصة البطولات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* تنسيقات إضافية خاصة بلوحة الإدارة */
+        body { background-color: #eef4ed; }
+        header { background-color: #dc3545; /* لون مختلف لتمييز لوحة الإدارة */ }
+        .admin-nav { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .admin-nav button { flex: 1; min-width: 150px; }
+        table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: right; }
+        th { background-color: var(--primary-color); color: white; }
+        .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; color: white; }
+        .bg-warning { background-color: #ffc107; color: black; }
+        .bg-success { background-color: #28a745; }
+        .bg-danger { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">لوحة الإدارة - نظام البطولات</div>
+        <div class="auth-buttons">
+            <button class="btn btn-outline" onclick="logoutAdmin()">تسجيل خروج</button>
+        </div>
+    </header>
+
+    <div style="padding: 20px; max-width: 1200px; margin: 0 auto;">
+        
+        <!-- أزرار التنقل بين الأقسام الإدارية -->
+        <div class="admin-nav">
+            <button class="btn btn-primary" onclick="showAdminSection('manage-tournaments')">إدارة البطولات</button>
+            <button class="btn btn-primary" onclick="showAdminSection('manage-registrations')">الطلبات والدفع</button>
+            <button class="btn btn-primary" onclick="showAdminSection('activity-logs')">سجل النشاطات</button>
+        </div>
+
+        <!-- قسم إضافة وإدارة البطولات -->
+        <main id="manage-tournaments" class="section active" style="display: block; padding: 0;">
+            <div class="card" style="text-align: right;">
+                <h3>إضافة بطولة جديدة</h3>
+                <form onsubmit="addTournament(event)" style="margin-top: 15px;">
+                    <div class="grid-container">
+                        <div>
+                            <label>اسم البطولة:</label>
+                            <input type="text" id="t-name" required style="width: 100%; padding: 8px;">
+                        </div>
+                        <div>
+                            <label>الرياضة:</label>
+                            <select id="t-sport" required style="width: 100%; padding: 8px;">
+                                <option value="كرة قدم">كرة قدم</option>
+                                <option value="بادل">بادل</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>إجمالي المقاعد (الفرق):</label>
+                            <input type="number" id="t-slots" required style="width: 100%; padding: 8px;">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 15px;">إنشاء البطولة</button>
+                </form>
+            </div>
+        </main>
+
+        <!-- قسم طلبات التسجيل والدفع -->
+        <main id="manage-registrations" class="section" style="padding: 0;">
+            <div class="card" style="text-align: right; overflow-x: auto;">
+                <h3>مراجعة طلبات التسجيل وتحديث الدفع</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الفريق</th>
+                            <th>البطولة</th>
+                            <th>حالة التسجيل</th>
+                            <th>حالة الدفع</th>
+                            <th>إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="registrations-table-body">
+                        <!-- مثال وهمي للتوضيح (يتم جلبه برمجياً من Firebase لاحقاً) -->
+                        <tr>
+                            <td>فريق الصقور</td>
+                            <td>بطولة الصيف لكرة القدم</td>
+                            <td><span class="status-badge bg-warning">بانتظار المراجعة</span></td>
+                            <td><span class="status-badge bg-danger">غير مكتمل</span></td>
+                            <td>
+                                <button class="btn btn-outline" style="color: green; border-color: green;" onclick="approveRegistration('doc_id')">تأكيد الدفع والاعتماد</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <!-- قسم سجل النشاطات (Activity Logs) -->
+        <main id="activity-logs" class="section" style="padding: 0;">
+            <div class="card" style="text-align: right;">
+                <h3>سجل نشاطات الإدارة</h3>
+                <ul id="logs-list" style="list-style: none; padding: 0; margin-top: 15px;">
+                    <!-- سيتم حقن السجلات هنا -->
+                </ul>
+            </div>
+        </main>
+
+    </div>
+
+    <script type="module" src="admin.js"></script>
+    <script>
+        function showAdminSection(sectionId) {
+            document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+        }
+    </script>
+</body>
+</html>
