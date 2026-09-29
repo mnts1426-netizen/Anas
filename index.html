@@ -3,63 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة كأس النخبة الجنوبي</title>
-    <!-- خط تجوال من جوجل لدعم العربية -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <title>كأس النخبة الجنوبي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <div class="logo" style="cursor:pointer;" onclick="showSection('home')">
-            <img src="WhatsApp Image 2026-09-26 at 1.15.13 PM.jpeg" alt="شعار البطولة" style="height: 50px; margin-left: 10px;">
-            <span style="color: var(--accent-color);">كأس النخبة الجنوبي</span>
+        <div class="logo" onclick="showSection('home')">
+            <img src="LOGO1.jpeg" alt="شعار البطولة">
+            <span>كأس النخبة الجنوبي</span>
         </div>
         <nav>
             <ul id="nav-links">
                 <li><a onclick="showSection('home')">الرئيسية</a></li>
-                <li><a onclick="showSection('tournaments')">البطولات</a></li>
-                <li><a onclick="showSection('matches')">المباريات والنتائج</a></li>
-                <li><a onclick="showSection('media')">المركز الإعلامي</a></li>
+                <li><a onclick="filterTournaments('all')">البطولات</a></li>
+                <li><a onclick="showSection('media')">شركاؤنا</a></li>
             </ul>
         </nav>
         <div class="auth-buttons">
-            <button class="btn btn-outline" onclick="window.location.href='app.html'">دخول الفرق</button>
+            <button class="btn-outline" onclick="window.location.href='app.html'">تسجيل الدخول</button>
         </div>
     </header>
 
-    <!-- قسم الرئيسية -->
+    <!-- قسم الرئيسية (Dashboard Grid) -->
     <main id="home" class="section active">
-        <h1>مرحباً بك في كأس النخبة الجنوبي</h1>
-        <p>تابع أحدث بطولات كرة القدم والبادل، الإحصائيات، والأخبار في مكان واحد.</p>
-        <!-- سيتم جلب البطولات الحالية هنا عبر JS -->
-        <div class="grid-container" id="home-tournaments-list"></div>
+        <h2 class="section-title">المنصة الرئيسية</h2>
+        
+        <div class="dashboard-grid">
+            <!-- بطاقة كرة القدم (تعرض بطولات القدم فقط) -->
+            <div class="elite-card" onclick="filterTournaments('كرة قدم')">
+                <div class="card-logo"><img src="LOGO1.jpeg" alt="Logo"></div>
+                <div class="card-content">
+                    <i class="card-icon fas fa-futbol"></i>
+                    <h3 class="card-title">كرة القدم</h3>
+                    <span class="card-subtitle">FOOTBALL</span>
+                    <div class="arrow-btn"><i class="fas fa-arrow-left"></i></div>
+                </div>
+            </div>
+            <!-- بطاقة البادل (تعرض بطولات البادل فقط) -->
+            <div class="elite-card" onclick="filterTournaments('بادل')">
+                <div class="card-logo"><img src="LOGO1.jpeg" alt="Logo"></div>
+                <div class="card-content">
+                    <i class="card-icon fas fa-table-tennis"></i>
+                    <h3 class="card-title">البادل</h3>
+                    <span class="card-subtitle">PADEL</span>
+                    <div class="arrow-btn"><i class="fas fa-arrow-left"></i></div>
+                </div>
+            </div>
+            <!-- بطاقة جميع البطولات -->
+            <div class="elite-card" onclick="filterTournaments('all')">
+                <div class="card-logo"><img src="LOGO1.jpeg" alt="Logo"></div>
+                <div class="card-content">
+                    <i class="card-icon fas fa-calendar-alt"></i>
+                    <h3 class="card-title">البطولات</h3>
+                    <span class="card-subtitle">TOURNAMENTS</span>
+                    <div class="arrow-btn"><i class="fas fa-arrow-left"></i></div>
+                </div>
+            </div>
+            <!-- بطاقة الإدارة -->
+            <div class="elite-card" onclick="window.location.href='admin.html'">
+                <div class="card-logo"><img src="LOGO1.jpeg" alt="Logo"></div>
+                <div class="card-content">
+                    <i class="card-icon fas fa-cogs"></i>
+                    <h3 class="card-title">الإدارة</h3>
+                    <span class="card-subtitle">MANAGEMENT</span>
+                    <div class="arrow-btn"><i class="fas fa-arrow-left"></i></div>
+                </div>
+            </div>
+            <!-- بطاقة شركاؤنا -->
+            <div class="elite-card" onclick="showSection('media')">
+                <div class="card-logo"><img src="LOGO1.jpeg" alt="Logo"></div>
+                <div class="card-content">
+                    <i class="card-icon fas fa-handshake"></i>
+                    <h3 class="card-title">شركاؤنا</h3>
+                    <span class="card-subtitle">OUR PARTNERS</span>
+                    <div class="arrow-btn"><i class="fas fa-arrow-left"></i></div>
+                </div>
+            </div>
+            <!-- بطاقة تواصل معنا -->
+            <div class="elite-card" onclick="showSection('contact')">
+                <div class="card-logo"><img src="LOGO1.jpeg" alt="Logo"></div>
+                <div class="card-content">
+                    <i class="card-icon fas fa-phone-alt"></i>
+                    <h3 class="card-title">تواصل معنا</h3>
+                    <span class="card-subtitle">CONTACT US</span>
+                    <div class="arrow-btn"><i class="fas fa-arrow-left"></i></div>
+                </div>
+            </div>
+            <!-- بطاقة اللوائح والقوانين -->
+            <div class="elite-card" onclick="showSection('rules')">
+                <div class="card-logo"><img src="LOGO1.jpeg" alt="Logo"></div>
+                <div class="card-content">
+                    <i class="card-icon fas fa-list-alt"></i>
+                    <h3 class="card-title">القوانين</h3>
+                    <span class="card-subtitle">RULES & REGS</span>
+                    <div class="arrow-btn"><i class="fas fa-arrow-left"></i></div>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+        <h2 class="section-title">أحدث البطولات</h2>
+        <div class="dashboard-grid" id="home-tournaments-list"></div>
     </main>
 
-    <!-- قسم البطولات -->
+    <!-- قسم البطولات (يستقبل الفلترة) -->
     <main id="tournaments" class="section">
-        <h2>جميع البطولات</h2>
-        <div class="grid-container" id="all-tournaments-list"></div>
+        <h2 class="section-title" id="tournaments-title">جميع البطولات</h2>
+        <div class="dashboard-grid" id="all-tournaments-list"></div>
     </main>
 
-    <!-- قسم المباريات -->
-    <main id="matches" class="section">
-        <h2>أحدث النتائج وجدول المباريات</h2>
-        <div id="matches-list"></div>
-    </main>
-
-    <!-- قسم المركز الإعلامي والرعاة -->
+    <!-- قسم شركاء النجاح (معبأ بعينات احترافية بدلاً من أن يكون فارغاً) -->
     <main id="media" class="section">
-        <h2>المركز الإعلامي</h2>
-        <div class="grid-container" id="media-gallery"></div>
-        <hr style="margin: 30px 0; border-color: var(--border-color);">
-        <h2>شركاء النجاح</h2>
-        <div class="grid-container" id="sponsors-list"></div>
+        <h2 class="section-title">شركاء النجاح</h2>
+        <div class="dashboard-grid" id="sponsors-list">
+            <div class="elite-card" style="justify-content: center; padding: 30px;">
+                <div class="card-content">
+                    <i class="card-icon fas fa-gem" style="font-size:3rem; color: #b9f2ff;"></i>
+                    <h3 class="card-title" style="margin-top:15px;">الراعي الماسي</h3>
+                    <span class="card-subtitle">مساحة إعلانية</span>
+                </div>
+            </div>
+            <div class="elite-card" style="justify-content: center; padding: 30px;">
+                <div class="card-content">
+                    <i class="card-icon fas fa-medal" style="font-size:3rem; color: silver;"></i>
+                    <h3 class="card-title" style="margin-top:15px;">الراعي الفضي</h3>
+                    <span class="card-subtitle">مساحة إعلانية</span>
+                </div>
+            </div>
+        </div>
     </main>
+
+    <!-- قسم تواصل معنا الجديد -->
+    <main id="contact" class="section">
+        <h2 class="section-title">تواصل معنا</h2>
+        <div class="contact-info">
+            <p><i class="fab fa-tiktok"></i> حسابنا الرسمي على تيك توك: <span style="color:var(--gold-main);" dir="ltr">@9ef.asir</span></p>
+            <p><i class="fab fa-whatsapp"></i> الدعم الفني (واتساب): <span style="color:var(--gold-main);" dir="ltr">+966 XX XXX XXXX</span></p>
+        </div>
+        <div class="elite-form-container" style="max-width: 600px; margin: 0 auto; box-shadow:none;">
+            <form onsubmit="event.preventDefault(); alert('تم إرسال رسالتك للإدارة بنجاح!');">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" required placeholder="الاسم الكريم / ممثل الفريق">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" required placeholder="البريد الإلكتروني للتواصل">
+                </div>
+                <div class="input-group" style="align-items: flex-start; padding-top:15px;">
+                    <i class="fas fa-comment"></i>
+                    <textarea required placeholder="اكتب استفسارك هنا..." style="min-height:100px; resize:none;"></textarea>
+                </div>
+                <button type="submit" class="btn-gold" style="width:100%;">إرسال الاستفسار <i class="fas fa-paper-plane" style="margin-right:10px;"></i></button>
+            </form>
+        </div>
+    </main>
+
+    <!-- قسم اللوائح والقوانين الجديد -->
+    <main id="rules" class="section">
+        <h2 class="section-title">اللوائح والقوانين التنظيمية</h2>
+        <div class="rule-box">
+            <h4><i class="fas fa-gavel" style="margin-left: 10px;"></i> 1. الشروط العامة والتسجيل</h4>
+            <p>يجب على جميع الفرق إكمال إجراءات التسجيل عبر المنصة ودفع رسوم الاشتراك قبل إغلاق باب التسجيل. لا يُعتمد أي فريق ما لم تتغير حالة الدفع إلى "مكتمل".</p>
+        </div>
+        <div class="rule-box">
+            <h4><i class="fas fa-futbol" style="margin-left: 10px;"></i> 2. لوائح كرة القدم</h4>
+            <p>تطبق القوانين المعتمدة لمنافسات السداسيات، ويُمنع إشراك أي لاعب غير مسجل في الكشف الرسمي المرفق في المنصة. قرار حكم الساحة نهائي وغير قابل للنقاش.</p>
+        </div>
+        <div class="rule-box">
+            <h4><i class="fas fa-table-tennis" style="margin-left: 10px;"></i> 3. لوائح البادل</h4>
+            <p>تقام المباريات بنظام خروج المغلوب أو المجموعات حسب الجدول المعلن في صفحة البطولة. يجب التواجد قبل موعد المباراة بـ 15 دقيقة لتأكيد الحضور.</p>
+        </div>
+    </main>
+
+    <!-- الفوتر (تذييل الموقع) -->
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026 لـ <span>كأس النخبة الجنوبي</span> | منصة الإدارة الذكية</p>
+    </footer>
 
     <script type="module" src="app.js"></script>
     <script>
-        // دالة بسيطة للتنقل بين الأقسام
         function showSection(sectionId) {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
             document.getElementById(sectionId).classList.add('active');

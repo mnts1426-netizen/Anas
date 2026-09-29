@@ -1,15 +1,15 @@
-/* إعدادات المتغيرات والألوان (طابع كأس النخبة - أسود وذهبي) */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+/* إعدادات المتغيرات (الثيم الملكي - Dark Elite Theme) */
 :root {
-  --primary-color: #050505; /* أسود عميق للنافبار */
-  --secondary-color: #111111; /* أسود أفتح للبطاقات */
-  --accent-color: #d4af37; /* اللون الذهبي الفاخر */
-  --highlight-color: #f3c623; /* ذهبي فاتح للتفاعل */
-  --success-color: #28a745;
+  --bg-dark: #030303; /* أسود عميق جداً للخلفية */
+  --bg-card: linear-gradient(145deg, #111111 0%, #000000 100%); /* تدرج أسود للبطاقات */
+  --gold-main: #d4af37; /* ذهبي أساسي */
+  --gold-light: #f3c623; /* ذهبي فاتح للتوهج */
+  --gold-dark: #aa8c2c; /* ذهبي داكن */
+  --text-white: #ffffff;
+  --text-gray: #aaaaaa;
   --danger-color: #dc3545;
-  --text-dark: #ffffff; /* تحول للأبيض ليناسب الخلفية الداكنة */
-  --text-light: #eaeaea; /* فضي فاتح */
-  --bg-color: #0a0a0a; /* خلفية الموقع */
-  --border-color: #2a2a2a; /* حدود خفيفة */
   --font-main: 'Tajawal', sans-serif;
 }
 
@@ -17,109 +17,199 @@
 
 body {
   font-family: var(--font-main);
-  background-color: var(--bg-color);
-  color: var(--text-dark);
+  background-color: var(--bg-dark);
+  color: var(--text-white);
   line-height: 1.6;
   direction: rtl;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* النافبار (شريط التنقل) */
 header {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  padding: 1rem 2rem;
+  background-color: #000000;
+  padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-bottom: 2px solid var(--accent-color);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid var(--gold-main);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
 }
 
-header .logo { 
-    display: flex; 
-    align-items: center; 
-    font-size: 1.5rem; 
-    font-weight: bold; 
-}
-header .logo img {
-    border-radius: 50%; /* لجعل الشعار دائرياً إذا لزم الأمر */
-}
+header .logo { display: flex; align-items: center; cursor: pointer; }
+header .logo img { height: 50px; margin-left: 10px; }
+header .logo span { color: var(--gold-main); font-size: 1.5rem; font-weight: bold; text-shadow: 0 0 5px rgba(212,175,55,0.5); }
 
 nav ul { list-style: none; display: flex; gap: 20px; }
-nav a { 
-    color: var(--text-light); 
-    text-decoration: none; 
-    cursor: pointer; 
-    font-weight: bold;
-    transition: 0.3s; 
-}
-nav a:hover { color: var(--accent-color); }
+nav a { color: var(--text-white); text-decoration: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
+nav a:hover { color: var(--gold-light); }
 
-/* أزرار أساسية */
-.btn {
-  padding: 8px 16px;
+/* الأزرار الذهبية */
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold-main), var(--gold-dark));
+  color: #000000;
   border: none;
-  border-radius: 4px;
+  padding: 12px 25px;
+  border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 800;
   transition: all 0.3s ease;
   font-family: inherit;
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
-.btn-primary { 
-    background: linear-gradient(135deg, var(--accent-color), #aa8c2c); 
-    color: #000; 
+.btn-gold:hover {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold-main));
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
-.btn-primary:hover {
-    background: linear-gradient(135deg, var(--highlight-color), var(--accent-color));
-    transform: translateY(-2px);
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--gold-main);
+  color: var(--gold-main);
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
 }
-.btn-outline { 
-    background-color: transparent; 
-    border: 1px solid var(--accent-color); 
-    color: var(--accent-color); 
-}
-.btn-outline:hover {
-    background-color: var(--accent-color);
-    color: #000;
-}
+.btn-outline:hover { background-color: var(--gold-main); color: #000; }
 
-/* هيكل الأقسام (تظهر وتختفي برمجياً) */
-.section { display: none; padding: 2rem; max-width: 1200px; margin: 0 auto; }
-.section.active { display: block; animation: fadeIn 0.4s ease-in-out; }
+/* هيكل الأقسام */
+.section { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; flex: 1; width: 100%;}
+.section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+.section-title { color: var(--gold-main); text-align: center; margin-bottom: 30px; font-size: 2rem; font-weight: 800; text-shadow: 0 2px 5px #000; }
 
-/* الشبكات (Grid) للبطولات والفرق */
-.grid-container {
+/* 🌟 شبكة البطاقات 🌟 */
+.dashboard-grid {
   display: grid;
-  grid-template-columns: 1fr; /* Mobile First */
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
   margin-top: 20px;
 }
-@media (min-width: 768px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .grid-container { grid-template-columns: repeat(3, 1fr); } }
 
-/* بطاقات العرض (Cards) */
-.card {
-  background: var(--secondary-color);
-  border: 1px solid var(--border-color);
-  border-top: 3px solid var(--accent-color);
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+/* تصميم البطاقة الفاخرة */
+.elite-card {
+  background: var(--bg-card);
+  border: 1px solid var(--gold-main);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.elite-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+  border-color: var(--gold-light);
+}
+
+.card-logo { width: 110px; flex-shrink: 0; }
+.card-logo img { width: 100%; border-radius: 50%; }
+
+.card-content {
   text-align: center;
-  transition: transform 0.3s ease;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent-color);
+.card-icon { color: var(--gold-main); font-size: 2.5rem; margin-bottom: 10px; }
+.card-title { color: var(--text-white); font-size: 1.6rem; font-weight: 800; margin-bottom: 2px; }
+.card-subtitle { color: var(--text-gray); font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; }
+
+.arrow-btn {
+  margin-top: 15px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-main);
+  transition: 0.3s;
+  font-size: 0.9rem;
 }
-.card h3 { color: var(--highlight-color); margin-bottom: 10px; }
-.card p { color: var(--text-light); }
-.card img { max-width: 100%; border-radius: 5px; }
+.elite-card:hover .arrow-btn { background: var(--gold-main); color: #000; }
 
-/* العناوين داخل الأقسام */
-h1, h2 { color: var(--accent-color); margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+/* 🌟 تصميم النماذج 🌟 */
+.elite-form-container {
+  max-width: 450px;
+  margin: 40px auto;
+  background: var(--bg-card);
+  padding: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--gold-main);
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--gold-main);
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 0 15px;
+  background: rgba(0,0,0,0.4);
+  width: 100%;
+}
+.input-group i { color: var(--text-gray); margin-left: 12px; }
+.input-group input, .input-group textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-white);
+  padding: 15px 0;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+}
+.input-group input::placeholder, .input-group textarea::placeholder { color: var(--text-gray); font-size: 0.9rem; }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* 🌟 صناديق اللوائح والقوانين 🌟 */
+.rule-box {
+    background: var(--bg-card);
+    border-right: 4px solid var(--gold-main);
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+.rule-box h4 { color: var(--gold-main); margin-bottom: 10px; font-size: 1.3rem;}
+.rule-box p { color: var(--text-gray); line-height: 1.8; }
+
+/* 🌟 معلومات التواصل 🌟 */
+.contact-info {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.contact-info p { font-size: 1.2rem; margin-bottom: 15px; }
+.contact-info i { color: var(--gold-main); margin-left: 10px; font-size: 1.5rem; }
+
+/* 🌟 الفوتر (تذييل الصفحة) 🌟 */
+footer {
+    background-color: #050505;
+    border-top: 1px solid var(--gold-main);
+    color: var(--text-gray);
+    text-align: center;
+    padding: 20px;
+    margin-top: auto; /* ليبقى في الأسفل دائماً */
+    font-size: 0.9rem;
+}
+footer span { color: var(--gold-main); font-weight: bold; }
+
+hr { border: 0; height: 1px; background: rgba(212, 175, 55, 0.3); margin: 30px 0; }
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }

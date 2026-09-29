@@ -1,50 +1,92 @@
 import { db, auth, collection, getDocs, onAuthStateChanged, signOut } from './firebase.js';
 
+let globalTournaments = []; // متغير لتخزين بيانات البطولات لعمل الفلترة بدون إعادة التحميل
+
 // ==========================================
-// 1. وظائف الواجهة العامة (للزوار - index.html)
+// 1. وظائف الواجهة العامة والفلترة الديناميكية
 // ==========================================
 async function loadTournaments() {
     const homeList = document.getElementById('home-tournaments-list');
-    const allList = document.getElementById('all-tournaments-list');
-    
-    // التحقق من وجود العنصر (للتأكد أننا في صفحة index.html)
     if (!homeList) return; 
 
     try {
         const querySnapshot = await getDocs(collection(db, "tournaments"));
-        let html = '';
+        globalTournaments = []; // تفريغ المصفوفة
         
-        if (querySnapshot.empty) {
-            html = '<p>لا توجد بطولات متاحة حالياً.</p>';
-        } else {
+        if (!querySnapshot.empty) {
             querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                html += `
-                    <div class="card">
-                        <h3>${data.name}</h3>
-                        <p><strong>الرياضة:</strong> ${data.sport}</p>
-                        <p><strong>التاريخ:</strong> ${data.date || 'يحدد لاحقاً'}</p>
-                        <p style="margin-bottom:15px;"><strong>المقاعد:</strong> ${data.available_slots} متاحة من أصل ${data.total_slots}</p>
-                        <button class="btn btn-outline" style="width:100%;" onclick="alert('سيتم توجيهك لصفحة تفاصيل البطولة')">التفاصيل</button>
-                    </div>
-                `;
+                globalTournaments.push({ id: doc.id, ...doc.data() });
             });
         }
         
-        homeList.innerHTML = html;
-        if (allList) allList.innerHTML = html;
+        // عرض جميع البطولات كحالة افتراضية
+        renderTournamentsList('all');
         
     } catch (error) {
         console.error("خطأ في جلب البطولات: ", error);
-        homeList.innerHTML = '<p style="color:var(--danger-color);">حدث خطأ أثناء تحميل البيانات.</p>';
+        if (homeList) homeList.innerHTML = '<p style="color:var(--danger-color); text-align:center;">حدث خطأ أثناء تحميل البيانات.</p>';
+    }
+}
+
+// دالة لرسم البطاقات بناءً على الفلتر المختار
+window.renderTournamentsList = function(filterSport) {
+    const homeList = document.getElementById('home-tournaments-list');
+    const allList = document.getElementById('all-tournaments-list');
+    
+    // فلترة المصفوفة
+    let filteredData = globalTournaments;
+    if (filterSport !== 'all') {
+        filteredData = globalTournaments.filter(t => t.sport === filterSport);
+    }
+
+    let html = '';
+    if (filteredData.length === 0) {
+        html = '<p style="color:var(--gold-main); text-align:center; grid-column: 1 / -1;">لا توجد بطولات متاحة حالياً ضمن هذا التصنيف.</p>';
+    } else {
+        filteredData.forEach((data) => {
+            let sportIcon = data.sport === 'بادل' ? 'fa-table-tennis' : 'fa-futbol';
+            html += `
+                <div class="elite-card" onclick="alert('سيتم توجيهك لصفحة تفاصيل البطولة')">
+                    <div class="card-logo">
+                        <img src="LOGO1.jpeg" alt="Logo">
+                    </div>
+                    <div class="card-content">
+                        <i class="card-icon fas ${sportIcon}"></i>
+                        <h3 class="card-title">${data.name}</h3>
+                        <span class="card-subtitle">${data.date || 'قريباً'}</span>
+                        <p style="color: var(--text-gray); font-size: 0.9rem; margin-top:8px; font-weight:bold;">المقاعد: <span style="color:var(--gold-light);">${data.available_slots} / ${data.total_slots}</span></p>
+                        <div class="arrow-btn"><i class="fas fa-arrow-left"></i></div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    if (homeList && filterSport === 'all') homeList.innerHTML = html; // في الرئيسية نعرض الكل فقط
+    if (allList) allList.innerHTML = html;
+}
+
+// دالة يتم استدعاؤها عند الضغط على (كرة القدم / البادل / البطولات)
+window.filterTournaments = function(sport) {
+    // تحديث البيانات
+    window.renderTournamentsList(sport);
+    
+    // إخفاء كل الأقسام وإظهار قسم البطولات
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById('tournaments').classList.add('active');
+    
+    // تغيير العنوان الديناميكي
+    const titleObj = document.getElementById('tournaments-title');
+    if (titleObj) {
+        if (sport === 'كرة قدم') titleObj.innerText = 'بطولات كرة القدم';
+        else if (sport === 'بادل') titleObj.innerText = 'بطولات البادل';
+        else titleObj.innerText = 'جميع البطولات';
     }
 }
 
 // ==========================================
-// 2. وظائف بوابة المستخدم (app.html) - بنظام الدخول السريع
+// 2. وظائف بوابة المستخدم (بدون تخريب)
 // ==========================================
-
-// دالة مساعدة لتحديث الواجهة بناءً على وجود إيميل
 function updateUIForUser(email) {
     const loginSection = document.getElementById('login-section');
     const dashboardSection = document.getElementById('dashboard-section');
@@ -62,50 +104,36 @@ function updateUIForUser(email) {
     }
 }
 
-// الاستماع لحالة تسجيل الدخول (Firebase + LocalStorage لعدم التخريب)
 onAuthStateChanged(auth, (user) => {
-    // التحقق مما إذا كان هناك دخول مبدئي محفوظ في المتصفح
     const localUserEmail = localStorage.getItem('eliteCupUserEmail');
-    
     if (user) {
-        updateUIForUser(user.email); // دخول نظامي عبر Firebase (مثلاً للإدارة)
+        updateUIForUser(user.email); 
     } else if (localUserEmail) {
-        updateUIForUser(localUserEmail); // دخول سريع بدون باسوورد للفرق
+        updateUIForUser(localUserEmail); 
     } else {
-        updateUIForUser(null); // غير مسجل
+        updateUIForUser(null); 
     }
 });
 
-// دالة تسجيل الدخول (مربوطة بنموذج app.html - بالايميل فقط)
 window.loginUser = async function(event) {
     event.preventDefault();
     const email = document.getElementById('email').value;
-    
     if (email) {
-        // حفظ الإيميل في الجلسة المحلية كدخول سريع بدون باسوورد
         localStorage.setItem('eliteCupUserEmail', email);
-        
-        // تحديث الواجهة فوراً
         updateUIForUser(email);
     }
 }
 
-// دالة تسجيل الخروج
 window.logoutUser = async function() {
     try {
-        // مسح الجلسة المحلية المبدئية
         localStorage.removeItem('eliteCupUserEmail');
-        
-        // تسجيل الخروج من Firebase (لتنظيف أي جلسات أخرى)
         await signOut(auth);
-        
-        window.location.href = 'index.html'; // العودة للرئيسية
+        window.location.href = 'index.html'; 
     } catch (error) {
         console.error("خطأ في تسجيل الخروج: ", error);
     }
 }
 
-// تشغيل الوظائف عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", () => {
     loadTournaments();
 });

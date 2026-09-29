@@ -3,97 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الفرق - كأس النخبة الجنوبي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <title>تسجيل الدخول - النخبة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* تنسيقات إضافية خاصة بالنماذج (Forms) للثيم الداكن */
-        .form-container {
-            max-width: 400px;
-            margin: 50px auto;
-            background: var(--secondary-color);
-            padding: 30px;
-            border-radius: 8px;
-            border-top: 3px solid var(--accent-color);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--accent-color);}
-        .form-group input { 
-            width: 100%; 
-            padding: 12px; 
-            border: 1px solid var(--border-color); 
-            border-radius: 4px; 
-            font-family: inherit;
-            background-color: var(--primary-color);
-            color: var(--text-dark);
-        }
-        .form-group input:focus { outline: none; border-color: var(--accent-color); }
-        .error-msg { color: var(--danger-color); font-size: 0.9rem; margin-top: 10px; text-align: center;}
-        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    </style>
 </head>
 <body>
 
     <header>
-        <div class="logo" style="cursor:pointer;" onclick="window.location.href='index.html'">
-            <img src="WhatsApp Image 2026-09-26 at 1.15.13 PM.jpeg" alt="شعار البطولة" style="height: 50px; margin-left: 10px;">
-            <span style="color: var(--accent-color);">كأس النخبة الجنوبي</span>
+        <div class="logo" onclick="window.location.href='index.html'">
+            <img src="LOGO1.jpeg" alt="شعار البطولة">
+            <span>كأس النخبة الجنوبي</span>
         </div>
         <nav>
             <ul>
-                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="index.html">العودة للرئيسية</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- قسم تسجيل الدخول (بدون باسوورد) -->
+    <!-- بطاقة تسجيل الدخول (مطابقة تماماً للصورة) -->
     <main id="login-section" class="section active">
-        <div class="form-container">
-            <h2 style="text-align: center; margin-bottom: 10px;">دخول ممثلي الفرق</h2>
-            <p style="text-align: center; color: var(--text-light); margin-bottom: 20px; font-size: 0.9rem;">
-                يمكنك الدخول باستخدام بريدك الإلكتروني فقط في هذه المرحلة.
-            </p>
-            <form onsubmit="loginUser(event)">
-                <div class="form-group">
-                    <label>البريد الإلكتروني</label>
-                    <input type="email" id="email" required placeholder="name@example.com">
+        <div class="elite-form-container">
+            <i class="card-icon fas fa-user" style="font-size: 3.5rem;"></i>
+            <h3 class="card-title" style="margin-top: 10px;">تسجيل الدخول</h3>
+            <span class="card-subtitle" style="margin-bottom: 30px;">LOGIN</span>
+            
+            <form onsubmit="loginUser(event)" style="width: 100%;">
+                <div class="input-group">
+                    <i class="fas fa-user-circle"></i>
+                    <input type="email" id="email" required placeholder="البريد الإلكتروني أو رقم الجوال">
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 10px;">تسجيل الدخول</button>
-                <div id="login-error" class="error-msg"></div>
+                <!-- حقل كلمة المرور مخفي مؤقتاً كما طلبنا سابقاً ولكن يمكن إضافته هنا بنفس كلاس input-group -->
+                
+                <button type="submit" class="btn-gold" style="width: 100%;">
+                    دخول <i class="fas fa-arrow-left"></i>
+                </button>
+                <div id="login-error" style="color: var(--danger-color); text-align: center; margin-top: 15px;"></div>
             </form>
         </div>
     </main>
 
-    <!-- قسم لوحة تحكم المستخدم (يظهر بعد الدخول) -->
+    <!-- قسم لوحة تحكم المستخدم (بعد الدخول) -->
     <main id="dashboard-section" class="section">
-        <div class="dashboard-header">
-            <h2 style="margin: 0;">أهلاً بك، <span id="user-email" style="color: var(--text-light);"></span></h2>
-            <button class="btn btn-outline" style="color: var(--danger-color); border-color: var(--danger-color);" onclick="logoutUser()">تسجيل خروج</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2 class="section-title" style="margin: 0;">لوحة الفريق: <span id="user-email" style="color: var(--text-white); font-size:1.5rem;"></span></h2>
+            <button class="btn-outline" style="border-color: var(--danger-color); color: var(--danger-color);" onclick="logoutUser()">تسجيل خروج</button>
         </div>
 
-        <div class="grid-container">
-            <!-- بطاقة الفرق الخاصة بي -->
-            <div class="card">
-                <h3>فريقي</h3>
-                <p>إدارة بيانات فريقك ولاعبيك.</p>
-                <br>
-                <button class="btn btn-outline">إدارة الفريق</button>
-            </div>
-
-            <!-- بطاقة التسجيل في بطولة -->
-            <div class="card">
-                <h3>البطولات</h3>
-                <p>سجل فريقك في البطولات المتاحة وتابع حالة طلبك.</p>
-                <br>
-                <button class="btn btn-primary">طلب تسجيل جديد</button>
+        <div class="dashboard-grid">
+            <div class="elite-card">
+                <div class="card-content">
+                    <i class="card-icon fas fa-users"></i>
+                    <h3 class="card-title">إدارة فريقي</h3>
+                    <div class="arrow-btn"><i class="fas fa-arrow-left"></i></div>
+                </div>
             </div>
             
-            <!-- بطاقة حالة الطلبات -->
-            <div class="card">
-                <h3>حالة الطلبات</h3>
-                <p>حالة التسجيل: <span style="color: var(--highlight-color); font-weight:bold;">بانتظار المراجعة</span></p>
-                <p>حالة الدفع: <span style="color: var(--danger-color); font-weight:bold;">غير مكتمل</span></p>
+            <div class="elite-card">
+                <div class="card-content">
+                    <h3 class="card-title" style="color: var(--gold-main);">حالة الطلب</h3>
+                    <p style="color:var(--text-white); margin-top:10px;">التسجيل: <span style="color: var(--gold-light);">بانتظار المراجعة</span></p>
+                    <p style="color:var(--text-white);">الدفع: <span style="color: var(--danger-color);">غير مكتمل</span></p>
+                </div>
             </div>
         </div>
     </main>
