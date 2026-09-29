@@ -3,30 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة المستخدم - منصة البطولات</title>
+    <title>بوابة الفرق - كأس النخبة الجنوبي</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* تنسيقات إضافية خاصة بالنماذج (Forms) */
+        /* تنسيقات إضافية خاصة بالنماذج (Forms) للثيم الداكن */
         .form-container {
             max-width: 400px;
             margin: 50px auto;
-            background: white;
-            padding: 20px;
+            background: var(--secondary-color);
+            padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-top: 3px solid var(--accent-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit;}
-        .error-msg { color: var(--danger-color); font-size: 0.9rem; margin-top: 10px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--accent-color);}
+        .form-group input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 4px; 
+            font-family: inherit;
+            background-color: var(--primary-color);
+            color: var(--text-dark);
+        }
+        .form-group input:focus { outline: none; border-color: var(--accent-color); }
+        .error-msg { color: var(--danger-color); font-size: 0.9rem; margin-top: 10px; text-align: center;}
         .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo" style="cursor:pointer;" onclick="window.location.href='index.html'">كأس الأبطال</div>
+        <div class="logo" style="cursor:pointer;" onclick="window.location.href='index.html'">
+            <img src="WhatsApp Image 2026-09-26 at 1.15.13 PM.jpeg" alt="شعار البطولة" style="height: 50px; margin-left: 10px;">
+            <span style="color: var(--accent-color);">كأس النخبة الجنوبي</span>
+        </div>
         <nav>
             <ul>
                 <li><a href="index.html">الرئيسية</a></li>
@@ -34,29 +47,28 @@
         </nav>
     </header>
 
-    <!-- قسم تسجيل الدخول (يظهر إذا لم يكن المستخدم مسجلاً) -->
+    <!-- قسم تسجيل الدخول (بدون باسوورد) -->
     <main id="login-section" class="section active">
         <div class="form-container">
-            <h2 style="text-align: center; margin-bottom: 20px;">تسجيل الدخول</h2>
+            <h2 style="text-align: center; margin-bottom: 10px;">دخول ممثلي الفرق</h2>
+            <p style="text-align: center; color: var(--text-light); margin-bottom: 20px; font-size: 0.9rem;">
+                يمكنك الدخول باستخدام بريدك الإلكتروني فقط في هذه المرحلة.
+            </p>
             <form onsubmit="loginUser(event)">
                 <div class="form-group">
                     <label>البريد الإلكتروني</label>
                     <input type="email" id="email" required placeholder="name@example.com">
                 </div>
-                <div class="form-group">
-                    <label>كلمة المرور</label>
-                    <input type="password" id="password" required placeholder="********">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">دخول</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 10px;">تسجيل الدخول</button>
                 <div id="login-error" class="error-msg"></div>
             </form>
         </div>
     </main>
 
-    <!-- قسم لوحة تحكم المستخدم (يظهر بعد تسجيل الدخول) -->
+    <!-- قسم لوحة تحكم المستخدم (يظهر بعد الدخول) -->
     <main id="dashboard-section" class="section">
         <div class="dashboard-header">
-            <h2>أهلاً بك، <span id="user-email"></span></h2>
+            <h2 style="margin: 0;">أهلاً بك، <span id="user-email" style="color: var(--text-light);"></span></h2>
             <button class="btn btn-outline" style="color: var(--danger-color); border-color: var(--danger-color);" onclick="logoutUser()">تسجيل خروج</button>
         </div>
 
@@ -66,7 +78,7 @@
                 <h3>فريقي</h3>
                 <p>إدارة بيانات فريقك ولاعبيك.</p>
                 <br>
-                <button class="btn btn-outline" style="color:var(--secondary-color); border-color:var(--secondary-color);">إدارة الفريق</button>
+                <button class="btn btn-outline">إدارة الفريق</button>
             </div>
 
             <!-- بطاقة التسجيل في بطولة -->
@@ -80,8 +92,8 @@
             <!-- بطاقة حالة الطلبات -->
             <div class="card">
                 <h3>حالة الطلبات</h3>
-                <p>حالة التسجيل: <span style="color: var(--accent-color); font-weight:bold;">بانتظار المراجعة</span></p>
-                <p>حالةالدفع: <span style="color: var(--danger-color); font-weight:bold;">غير مكتمل</span></p>
+                <p>حالة التسجيل: <span style="color: var(--highlight-color); font-weight:bold;">بانتظار المراجعة</span></p>
+                <p>حالة الدفع: <span style="color: var(--danger-color); font-weight:bold;">غير مكتمل</span></p>
             </div>
         </div>
     </main>
